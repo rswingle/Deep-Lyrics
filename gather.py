@@ -59,6 +59,7 @@ class ArtistPageParser(HTMLParser):
     url = ""
     title = ""
     output_path = ""
+    artist = ""
 
     def handle_starttag(self, tag, attrs):
         href = None
@@ -79,11 +80,16 @@ class ArtistPageParser(HTMLParser):
     def handle_data(self, data):
         if self.match > 1:
             self.title = data
-            html = get_page_content(get_url(self.url))
-            song_parser = SongPageParser()
-            song_parser.output_path = self.output_path
-            start_new_thread(song_parser.feed, html)
-
+            try:
+                html = get_page_content(get_url(self.url))
+            except urllib2.HTTPError as err:
+                print "Error on song {} for artist {}: HTTP Error {}".format(self.title, self.artist, err.code)
+            except:
+                print "Error on song {} for artist {}: Unkown error".format(self.title, self.artist)
+            else:
+                song_parser = SongPageParser()
+                song_parser.output_path = self.output_path
+                start_new_thread(song_parser.feed, html)
 
 def main():
     parser = argparse.ArgumentParser()
@@ -101,10 +107,20 @@ def main():
 
     print "Gathering lyrics..."
     for i, artist in enumerate(artists):
-        html = get_page_content(get_url(ARTIST_PATH, artist))
-        artist_parser = ArtistPageParser()
-        artist_parser.output_path = output_file
-        artist_parser.feed(html)
+        try:
+            html = get_page_content(get_url(ARTIST_PATH, artist))
+        except urllib2.HTTPError as err:
+            print "Error for artist {}: HTTP Error {}".format(artist, err.code)
+        except:
+            print "Error for artist {}: Unkown error".format(artist)
+        else:
+            artist_parser = ArtistPageParser()
+            artist_parser.artist = artist
+            artist_parser.output_path = output_file
+            try:
+                artist_parser.feed(html)
+            except:
+                print "Error for artist {}: Problem parsing HTML".format(artist)
         print "Progress: {}%".format(((i + 1) * 100) / len(artists))
     print "Lyrics saved in {}".format(output_file)
 
