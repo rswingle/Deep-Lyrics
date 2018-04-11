@@ -84,6 +84,8 @@ class ArtistPageParser(HTMLParser):
                 html = get_page_content(get_url(self.url))
             except urllib2.HTTPError as err:
                 print "Error on song {} for artist {}: HTTP Error {}".format(self.title, self.artist, err.code)
+            except (KeyboardInterrupt, SystemExit):
+                raise
             except:
                 print "Error on song {} for artist {}: Unkown error".format(self.title, self.artist)
             else:
@@ -111,6 +113,8 @@ def main():
             html = get_page_content(get_url(ARTIST_PATH, artist))
         except urllib2.HTTPError as err:
             print "Error for artist {}: HTTP Error {}".format(artist, err.code)
+        except (KeyboardInterrupt, SystemExit):
+            raise
         except:
             print "Error for artist {}: Unkown error".format(artist)
         else:
@@ -119,6 +123,8 @@ def main():
             artist_parser.output_path = output_file
             try:
                 artist_parser.feed(html)
+            except (KeyboardInterrupt, SystemExit):
+                raise
             except:
                 print "Error for artist {}: Problem parsing HTML".format(artist)
         print "Progress: {}%".format(((i + 1) * 100) / len(artists))
