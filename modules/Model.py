@@ -1,10 +1,11 @@
 __author__ = 'Tony Beltramelli www.tonybeltramelli.com - 19/08/2016'
 
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.compat.v1.disable_eager_execution()
+#tf.disable_v2_behavior()
 import pickle
-from tensorflow.contrib import rnn
-
-
+import keras as keras
+from tensorflow.keras import layers
 class Model:
     x = None
     y = None
@@ -34,15 +35,16 @@ class Model:
 
         lstm_layers = []
         for i in range(0, layers_number):
-            lstm_layer = rnn.BasicLSTMCell(units_number)
+            #lstm_layer = rnn.BasicLSTMCell(units_number)
+            lstm_layer = keras.layers.LSTMCell(units_number)
             lstm_layers.append(lstm_layer)
-        deep_lstm = rnn.MultiRNNCell(lstm_layers)
+        deep_lstm = keras.layers.LSTM(lstm_layers)
 
-        self.outputs, states = rnn.static_rnn(deep_lstm, x, dtype=tf.float32)
+        self.outputs, states = karas.layers.SimpleRNN(deep_lstm, x, dtype=tf.float32)
 
-        print "Build model with input_number: {}, sequence_length: {}, layers_number: {}, " \
+        print("Build model with input_number: {}, sequence_length: {}, layers_number: {}, " \
               "units_number: {}, output_number: {}".format(input_number, sequence_length, layers_number,
-                                                           units_number, output_number)
+                                                           units_number, output_number))
 
         self.save(input_number, sequence_length, layers_number, units_number, output_number)
 

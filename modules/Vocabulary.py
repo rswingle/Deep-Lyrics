@@ -52,7 +52,7 @@ class Vocabulary:
 
     def set_vocabulary_size(self):
         self.size = len(self.vocabulary)
-        print "Vocabulary size: {}".format(self.size)
+        print( "Vocabulary size: {}".format(self.size))
 
     def get_serialized_binary_representation(self):
         string = ""

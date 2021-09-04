@@ -28,7 +28,7 @@ class Batch:
                 current_batch += u' '
             self.data_file.seek(0)
             self.dataset_full_passes += 1
-            print "Pass {} done".format(self.dataset_full_passes)
+            print( "Pass {} done".format(self.dataset_full_passes))
 
         for i in np.arange(0, string_len, self.sequence_length + 1):
             sequence = current_batch[i:i + self.sequence_length]

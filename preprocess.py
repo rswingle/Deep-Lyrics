@@ -5,7 +5,6 @@ import argparse
 import codecs
 from modules.Vocabulary import *
 
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--input_file', type=str, required=True)
@@ -19,7 +18,7 @@ def main():
     output_file.write(vocabulary.get_serialized_binary_representation())
     output_file.close()
 
-    print "Vocabulary saved in {}".format(output_file_name)
+    print( "Vocabulary saved in {}".format(output_file_name))
 
 if __name__ == "__main__":
     main()

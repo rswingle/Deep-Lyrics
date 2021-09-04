@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.8
 __author__ = 'Tony Beltramelli www.tonybeltramelli.com - 19/08/2016'
 
 import os
@@ -39,8 +39,7 @@ def main():
     units_number = args.units_number
     layers_number = args.layers_number
 
-    print "Start training with epoch: {}, batch_size: {}, log_frequency: {}," \
-          "learning_rate: {}".format(epoch, batch_size, log_frequency, learning_rate)
+    print("Start training with epoch: {}, batch_size: {}, log_frequency: {}, learning_rate: {}".format(epoch, batch_size, log_frequency, learning_rate))
 
     if not os.path.exists(model_name):
         os.makedirs(model_name)
